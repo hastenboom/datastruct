@@ -2,6 +2,7 @@
 #include <initializer_list>
 #include <stack>
 #include <queue>
+#include <cmath>
 using namespace std;
 
 struct Node
@@ -15,14 +16,16 @@ struct Node
 class BiTree
 {
 private:
-    //这是存储各个节点地址的数组首地址指针
+    int len;
 
 public:
     Node **tree;
+
     BiTree(initializer_list<int> initList)
     {
         //建立指针数组，里面存放的是Node*
         tree = new Node *[initList.size()] {};
+        int L = 0;
         int j = 0;
         // initList.begin()+j,j=0,所以取第一个数据的地址
         tree[0] = new Node(*(initList.begin() + j));
@@ -42,6 +45,7 @@ public:
                 tree[left]->val = *(initList.begin() + left);
                 //建立连接
                 tree[j]->lnode = tree[left];
+                L++;
             }
 
             //同样的逻辑建立右孩子
@@ -50,10 +54,31 @@ public:
                 tree[right] = new Node;
                 tree[right]->val = *(initList.begin() + right);
                 tree[j]->rnode = tree[right];
+                L++;
             }
             //记得j++
             j++;
         }
+        len = L + 1;
+    }
+
+    int length()
+    {
+        cout << len << endl;
+        return len;
+    }
+
+
+    int depth()
+    {
+        int i = 0;
+        for (i;; i++)
+        {
+            if ((pow(2, i) - 1) > len)
+                break;
+        }
+        cout << i << endl;
+        return i;
     }
 };
 
@@ -203,6 +228,12 @@ void level(Node *tmp)
     }
 }
 
+int length_rec(Node *tmp)
+{
+    
+}
+
+
 int main()
 {
     BiTree bt{1,
@@ -230,7 +261,11 @@ int main()
     // cout << endl;
     // rearOrder_iter(bt3.tree[0]);
     // cout << endl;
-    level(bt3.tree[0]);
+    // level(bt3.tree[0]);
+
+    bt2.length();
+    bt2.depth();
+
     system("pause");
     return 0;
 }
